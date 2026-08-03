@@ -478,9 +478,9 @@ section {
     }
     
     .countdown-item { 
-        width: 130px !important;  /* ¡Círculos más grandes! */
-        height: 130px !important;
-        min-width: 130px !important; 
+        width: 100px !important;  /* ¡Círculos más grandes! */
+        height: 100px !important;
+        min-width: 100px !important; 
         border-width: 3px !important;
     }
     
