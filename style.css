@@ -1,4 +1,4 @@
-﻿/* CSS Variables */
+/* CSS Variables */
 :root {
     --bg-main: #F7F7F7;
     --card-bg: #FFFFFF;
@@ -28,7 +28,7 @@
 
 
 body {
-    background: var(--bg-main);
+    background-color: #f7f7f7;
 }
 
 .info-card, .countdown-item, .btn-silver, .audio-btn, .scroll-indicator {
@@ -46,9 +46,14 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 1.5rem;
 }
+
 body {
     margin: 0;
     background-color: var(--bg-main);
+    background-image:
+        linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.9) 45%, rgba(255,255,255,0) 60%),
+        linear-gradient(135deg, #f0f0f0 0%, #e6e6e6 30%, #ffffff 50%, #eaeaea 75%, #d9d9d9 100%);
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-body);
     overflow-x: hidden;
@@ -56,14 +61,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1;
-    pointer-events: none;
-}
+
 
 .silver-text {
     background: var(--silver-text-gradient);
@@ -103,34 +101,37 @@ section {
     align-items: center;
     justify-content: center;
     padding: clamp(1.25rem, 3vw, 2rem);
-    
-    /* Fondo plata perla ultraluminoso */
-    background-color: #f7f7f7;
-    background-image:
-        linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.9) 45%, rgba(255,255,255,0) 60%),
-        linear-gradient(135deg, #f0f0f0 0%, #e6e6e6 30%, #ffffff 50%, #eaeaea 75%, #d9d9d9 100%);
-    background-size: cover;
-    background-position: center;
+    background: transparent;
 }
 
 .hero-card {
     width: min(760px, 100%);
-    padding: clamp(2.5rem, 6vw, 5rem); /* Un poquito más de respiro interno */
-    border-radius: 32px; /* Curvas más suaves */
+    padding: clamp(2.5rem, 6vw, 5rem);
+    border-radius: 32px;
     
-    /* Cristal esmerilado brillante */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.849) 0%, rgba(255, 255, 255, 0.2) 100%);
-    backdrop-filter: blur(16px); /* Blur más fuerte para mayor elegancia */
-    -webkit-backdrop-filter: blur(16px);
+    /* 1. Translucidez ajustada para dejar pasar la luz de las partículas */
+    background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.45) 0%, 
+        rgba(255, 255, 255, 0.18) 100%
+    );
     
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.534); /* Borde blanco nítido */
+    /* 2. Blur calibrado + saturación para difuminar sin desaparecer las formas */
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+    
+    /* 3. Bisel glossy y reflejo metálico en los bordes */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.05),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9),  /* Reflejo de luz superior */
+        inset 0 -1px 1px rgba(255, 255, 255, 0.3); /* Sombra de profundidad inferior */
     
     text-align: center;
     position: relative;
     z-index: 5;
     will-change: transform, box-shadow;
-    animation: floatHero 5s ease-in-out infinite alternate; /* Flotación un poco más lenta y majestuosa */
+    animation: floatHero 5s ease-in-out infinite alternate;
 }
 
 /* El marco interior de la tarjeta */
@@ -182,6 +183,16 @@ section {
     filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.08)); /* Esto separa el texto del fondo de cristal */
 
     
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Pasa por detrás del contenido */
+    pointer-events: none;
 }
 
 @media (max-width: 680px) {
