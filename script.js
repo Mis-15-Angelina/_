@@ -88,46 +88,54 @@ const ctx = canvas.getContext('2d');
 let width = 0;
 let height = 0;
 let particles = [];
-let animationFrameId = null;
 let lastTime = 0;
 
 const createParticle = () => {
     const size = Math.random() * Math.random() * 110 + 24;
     return {
-        x: Math.random() * width,
-        y: Math.random() * height,
+        // Usamos (width || window.innerWidth) como respaldo seguro en la creación inicial
+        x: Math.random() * (width || window.innerWidth),
+        y: Math.random() * (height || window.innerHeight),
         size,
         speedX: (Math.random() - 0.5) * 0.35,
         speedY: (Math.random() - 0.5) * 0.35,
         opacity: size > 45 ? Math.random() * 0.04 + 0.02 : Math.random() * 0.1 + 0.04,
         drift: Math.random() * Math.PI * 2,
-        // Nuevo atributo: 50% de probabilidad de ser true o false
         isStroke: Math.random() > 0.5 
     };
 };
 
-const initCanvas = () => {
+// Nueva función que redimensiona el canvas de forma fluida sin reiniciar la animación
+const resizeCanvas = () => {
     const dpr = window.devicePixelRatio || 1;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const newWidth = canvas.clientWidth;
+    const newHeight = canvas.clientHeight;
 
-    const desiredCount = Math.max(20, Math.floor((width * height) / 18000));
-    if (particles.length < desiredCount) {
+    // Solo actualizamos si las dimensiones realmente cambiaron
+    if (width !== newWidth || height !== newHeight) {
+        width = newWidth;
+        height = newHeight;
+        
+        // Ajustamos la resolución interna del canvas
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // Calculamos cuántas partículas necesitamos
+        const desiredCount = Math.max(20, Math.floor((width * height) / 18000));
+        
+        // Si la pantalla se agrandó y faltan partículas, sumamos nuevas
         while (particles.length < desiredCount) {
             particles.push(createParticle());
         }
-    } else {
-        // Solo limitamos la cantidad máxima, sin sobreescribir sus posiciones actuales
-        particles.length = desiredCount;
+        // Nota: Si la pantalla se achica, no borramos las partículas sobrantes de golpe, 
+        // dejamos que sigan flotando y se reacomoden solas al salir de los bordes.
     }
 };
 
 const drawParticles = (now) => {
     if (!lastTime) lastTime = now;
-    const delta = Math.min(32, now - lastTime);
+    const delta = Math.min(32, now - lastTime); // Limitamos el salto de tiempo
     lastTime = now;
 
     ctx.clearRect(0, 0, width, height);
@@ -138,6 +146,7 @@ const drawParticles = (now) => {
         particle.x += Math.sin(now * 0.0004 + particle.drift) * 0.15;
         particle.y += Math.cos(now * 0.00035 + particle.drift) * 0.15;
 
+        // Si salen de la pantalla, las hacemos aparecer por el otro lado de manera fluida
         if (particle.x < -particle.size * 2) particle.x = width + particle.size * 2;
         if (particle.x > width + particle.size * 2) particle.x = -particle.size * 2;
         if (particle.y < -particle.size * 2) particle.y = height + particle.size * 2;
@@ -148,13 +157,11 @@ const drawParticles = (now) => {
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         
-        // Guardamos el color en una variable para no repetirlo
         const color = `rgba(188, 210, 232, ${alpha.toFixed(4)})`;
 
-        // Evaluamos el atributo de la partícula
         if (particle.isStroke) {
             ctx.strokeStyle = color;
-            ctx.lineWidth = 1.5; // Puedes ajustar el grosor de la línea aquí
+            ctx.lineWidth = 1.5;
             ctx.stroke();
         } else {
             ctx.fillStyle = color;
@@ -162,23 +169,18 @@ const drawParticles = (now) => {
         }
     });
 
-    animationFrameId = requestAnimationFrame(drawParticles);
+    // Continuamos el loop infinito sin frenarlo nunca
+    requestAnimationFrame(drawParticles);
 };
 
-const startParticles = () => {
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    initCanvas();
-    lastTime = 0;
-    animationFrameId = requestAnimationFrame(drawParticles);
-};
+// Configuramos las medidas iniciales
+resizeCanvas();
 
-let currentWidth = window.innerWidth;
-window.addEventListener('resize', () => {
-    if (window.innerWidth !== currentWidth) {
-        currentWidth = window.innerWidth;
-        startParticles();
-    }
-});
+// Encendemos el motor de animación una sola vez y para siempre
+requestAnimationFrame(drawParticles);
+
+// Al cambiar el tamaño de pantalla, solo acomodamos el lienzo
+window.addEventListener('resize', resizeCanvas);
 window.addEventListener('load', startParticles);
 
 startParticles();
