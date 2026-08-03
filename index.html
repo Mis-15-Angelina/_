@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis 15 - Anyu</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kaushan+Script&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+   
+
+    <!-- Audio Element (Placeholder) -->
+    <audio id="bg-music" loop>
+        <source src="datra/Coldplay - A Sky Full of Stars (Traducida al Español).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Audio Player Toggle -->
+    <div class="audio-btn" id="audio-toggle" aria-label="Play/Pause Music">
+        <i class="fas fa-play"></i>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-card reveal">
+            <div class="hero-subtitle">Te invito a festejar Mis 15</div>
+            <h1 class="hero-title silver-text">Anyu</h1>
+            <div class="hero-date">Viernes 11 de Septiembre</div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <a class="scroll-indicator" href="#countdown" aria-label="Ir al contador">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+         <!-- Particles Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="countdown">
+        <h2 class="section-title reveal">Cuenta Regresiva</h2>
+        <div class="countdown-container reveal">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">39</span>
+                <span class="countdown-label">Días</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">23</span>
+                <span class="countdown-label">Hs</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">50</span>
+                <span class="countdown-label">Min</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">10</span>
+                <span class="countdown-label">Seg</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <div class="info-grid">
+            <!-- La Fiesta (Left Column) -->
+            <div class="info-card reveal">
+                <i class="fas fa-glass-cheers card-icon"></i>
+                <h3 class="card-title">La Fiesta</h3>
+                
+                <p class="card-text mb-1"><strong>Día:</strong> Viernes 11 de Septiembre</p>
+                <p class="card-text"><strong>Hora:</strong> 21:00 hs</p>
+                
+                <div class="venue-wrapper">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Salón de eventos" class="venue-img">
+                </div>
+                
+                <p class="card-text mb-1"><strong>Lugar:</strong> Salón azul</p>
+                <p class="card-text">Av. 1 Nro 1622, La Plata </p>
+                
+                <!-- Botón Cómo llegar -->
+                <a href="https://maps.app.goo.gl/zTC29o9DG1yg1eq99" target="_blank" rel="noopener noreferrer" class="btn-silver" style="margin-top: 2.5rem;">Cómo llegar</a>
+            </div>
+
+            <!-- Dress Code (Right Column) -->
+            <div class="info-card reveal">
+                <i class="fas fa-user-tie card-icon"></i>
+                <h3 class="card-title">Dress Code</h3>
+                
+                <p class="dress-code-main">Elegante</p>
+                
+                <div class="dress-code-rules">
+                    <p class="forbidden-colors">
+                        Colores no permitidos:<br>
+                        <strong>Rosa, verde y azul</strong><br>
+                        (en todas sus tonalidades)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Footer -->
+    <footer class="footer reveal">
+        <p class="footer-text">¡Te esperamos!</p>
+        <p class="footer-signature">Anyu</p>
+    </footer>
+
+     <!-- Particles Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+
+    
+</body>
+</html>
